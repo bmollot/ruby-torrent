@@ -61,7 +61,13 @@ class MetaInfo
       @dir_name = name
       @files = Array.new
       for f in fs
-        @files.push(FileEntry.new(f["length"], Pathname.new(f["path"])))
+        case f["path"]
+        when String
+          path = f["path"]
+        else
+          path = f["path"].join("/")
+        end
+        @files.push(FileEntry.new(f["length"], Pathname.new(path)))
       end
     end
   end
